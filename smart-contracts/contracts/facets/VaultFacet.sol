@@ -19,9 +19,9 @@ contract VaultFacet {
         _;
     }
 
-    event VaultUpdated(bytes32 indexed vaultId, bytes32 indexed schemaId, bytes32 indexed recordId);
+    event VaultUpdated(bytes32 indexed vaultId, string schemaId, string recordId);
 
-    function updateVault(bytes32 vaultId, bytes32 schemaId, bytes32 recordId) external onlyActiveOperator(msg.sender){
+    function updateVault(bytes32 vaultId, string memory schemaId, string memory recordId) external onlyActiveOperator(msg.sender){
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
         ds.vaults[vaultId] = LibDiamond.Vault(
             vaultId,
@@ -38,8 +38,9 @@ contract VaultFacet {
 
 
     function getVault(bytes32 vaultId) external view returns (
-        bytes32 schemaId,
-        bytes32 recordId,
+        bytes32 id,
+        string memory schemaId,
+        string memory recordId,
         uint256 createdAt,
         uint256 updatedAt
     ) {
@@ -47,6 +48,7 @@ contract VaultFacet {
             LibDiamond.Vault memory vault = ds.vaults[vaultId];
 
             return (
+                vault.id,
                 vault.schemaId,
                 vault.recordId,
                 vault.createdAt,

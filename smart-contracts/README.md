@@ -71,18 +71,32 @@ npx hardhat test --network localhost
 ## Deployment
 
 ### Deploy to localhost
-Deploy the contracts to a local Hardhat node:
+
+- Deploy the contracts to a local Hardhat node:
 
 ```bash
 npx hardhat ignition deploy ./ignition/modules/Browmia.ts
 
 ```
 
-Deploy to Monad testnet
+- Deploy to Monad testnet
+
 
 ```bash
 npx hardhat ignition deploy ./ignition/modules/Browmia.ts --network monadTestnet
 ```
+
+- Deploy new Facet Upgrades
+
+To upgrade facets, create a second module `BrowmiaModuleX.ts` where you will deploy new facets and call `diamondCut` with replace action on the existing Diamond contract.
+
+Take a look at the example upgrade logic in `./ignition/modules/BrowmiaUpgrade.ts`
+
+```bash
+npx hardhat ignition deploy ./ignition/modules/BrowmiaUpgrade.ts --network monadTestnet
+
+```
+
 
 
 

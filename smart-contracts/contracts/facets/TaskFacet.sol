@@ -28,7 +28,7 @@ contract TaskFacet is ReentrancyGuardUpgradeable, PausableUpgradeable {
      * #dev. Function createTask() called by whitelisted operator
      */
 
-    function createTask(string memory name, address user) external nonReentrant whenNotPaused onlyActiveOperator(msg.sender) returns (bytes32) {
+    function createTask(string memory name, address user) external nonReentrant whenNotPaused onlyActiveOperator(msg.sender) {
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
         require(ds.userActiveTasks[user] == bytes32(0), "Active task exists");
         
@@ -44,9 +44,9 @@ contract TaskFacet is ReentrancyGuardUpgradeable, PausableUpgradeable {
         
         ds.userActiveTasks[user] = taskId;
         ds.operatorTaskCount[msg.sender]++;
+        
         emit TaskCreated(taskId, user, msg.sender);
 
-        return taskId;
     }
 function getTask(address user) external view returns (
     string memory name,

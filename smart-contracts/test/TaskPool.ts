@@ -6,6 +6,7 @@ import { expect } from "chai";
 import { IDiamondCut } from "../contracts/interfaces"; // Generated type
 import { getContractAt } from "@nomicfoundation/hardhat-viem/types";
 import { encodeFunctionData, keccak256 } from "viem";
+import { randomBytes } from "crypto";
 
 describe("TaskPool Diamond", function () {
   async function deployDiamondFixture() {
@@ -36,15 +37,13 @@ describe("TaskPool Diamond", function () {
       },
       {
         facetAddress: vaultFacet.address,
-        action: 0,
         functionSelectors: [
-          "0x0cdcfbce", // updateVault(bytes32,bytes32,bytes32)
+          "0xf2b1dd57", // updateVault(bytes32,string,string)
           "0xb7c61f06"  // getVault(bytes32)
         ]
       },
       {
         facetAddress: adminFacet.address,
-        action: 0,
         functionSelectors: [
           "0xbea3127b", // setOperatorPool(address)
           "0x8456cb59", // pause()
@@ -53,7 +52,6 @@ describe("TaskPool Diamond", function () {
       },
       {
         facetAddress: loupeFacet.address,
-        action: 0,
         functionSelectors: [
           "0x7a0ed627", // facets()
           "0xadfca15e", // facetFunctionSelectors(address)
@@ -63,7 +61,7 @@ describe("TaskPool Diamond", function () {
       }
     ].map(c => ({
       facetAddress: c.facetAddress,
-      action: c.action, // Add action
+      action: 0, // Add action
       functionSelectors: c.functionSelectors
     }));
 
@@ -86,7 +84,6 @@ describe("TaskPool Diamond", function () {
     await admin.write.setOperatorPool([operatorPool.address]);
     await operatorPool.write.whitelistOperator([operator.account.address], { account: owner.account });
 
-
     return {
       owner,
       user,
@@ -100,11 +97,8 @@ describe("TaskPool Diamond", function () {
   it("Should enforce single active task per user", async function () {
     const { user, taskPool, operator } = await loadFixture(deployDiamondFixture);
 
-    const taskId = await taskPool.write.createTask(["Test Task", user.account.address], { account: operator.account });
+    await taskPool.write.createTask(["Test Task", user.account.address], { account: operator.account });
     const task = await taskPool.read.getTask([user.account.address], { account: operator.account });
-
-
-    expect(taskId).to.not.be.undefined
 
     expect(
       task[0]
@@ -126,13 +120,14 @@ describe("TaskPool Diamond", function () {
   });
 
   it("Should allow operators to update task vault data", async function () {
-    const { user, taskPool, operator, diamond } = await loadFixture(deployDiamondFixture);
-    const taskId = await taskPool.write.createTask(["Test Task", user.account.address], { account: operator.account });
+    const { operator, diamond } = await loadFixture(deployDiamondFixture);
 
+    const vaultId = keccak256(randomBytes(32))
     const vault = await viem.getContractAt("VaultFacet", diamond.address)
-    await vault.write.updateVault([taskId, keccak256("0x1"), keccak256("0xtest")], { account: operator.account })
-    const nvault = await vault.read.getVault([taskId])
-    expect(nvault[0]).to.equal(keccak256("0x1"))
+    await vault.write.updateVault([vaultId, "0x1", "0x1"], { account: operator.account })
+    const nvault = await vault.read.getVault([vaultId])
+
+    expect(nvault[0]).to.equal(vaultId)
 
 
   });

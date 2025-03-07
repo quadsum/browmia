@@ -1,9 +1,9 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+import { ethers } from "hardhat";
 import { encodeFunctionData } from "viem";
 
-export default buildModule("Browmia", (m) => {
+const browmiaModule = buildModule("Browmia", (m) => {
   const owner = m.getParameter("owner", "0xb9Ae7e3763E55011C4409c790a279C82C74F087D")
-  console.log(owner)
   const operatorPool = m.contract("OperatorPool");
   
   const taskFacet = m.contract("TaskFacet");
@@ -25,7 +25,7 @@ export default buildModule("Browmia", (m) => {
     {
       facet: vaultFacet,
       functionSelectors: [
-        "0x0cdcfbce", // updateVault(bytes32,bytes32,bytes32)
+        "0xf2b1dd57", // updateVault(bytes32,string,string)
         "0xb7c61f06"  // getVault(bytes32)
       ]
     },
@@ -52,7 +52,7 @@ export default buildModule("Browmia", (m) => {
 
   const diamondCut = facets.map((f) => ({
     facetAddress: f.facet,
-    action: 0,
+    action: 0, //add
     functionSelectors: f.functionSelectors
   }));
 
@@ -79,3 +79,5 @@ export default buildModule("Browmia", (m) => {
   
   return { diamond, operatorPool };
 });
+
+export default browmiaModule
