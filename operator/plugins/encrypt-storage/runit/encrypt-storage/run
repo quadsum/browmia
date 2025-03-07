@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ ! -d "$ENCRYPT_STORAGE_APP_PATH" ]; then
+  echo "$ENCRYPT_STORAGE_APP_PATH dir does not exist."
+  exit 1
+fi
+
+export NILLION_ORG_SECRET_KEY=$NILLION_ORG_SECRET_KEY
+export NILLION_ORG_DID=$NILLION_ORG_DID
+export OPERATOR_PK=$OPERATOR_PK
+
+# values from task vault
+export VAULT_ID=$VAULT_ID
+export COPY_VAULT_ID=$COPY_VAULT_ID
+export SCHEMA_ID=$SCHEMA_ID
+
+# optional values
+export TASK_DATA_PATH=$TASK_DATA_PATH
+export INTERVAL=$INTERVAL
+export MONAD_RPC=$MONAD_RPC
+export BROWMIA_DIAMOND_ADDRESS=$BROWMIA_DIAMOND_ADDRESS
+
+# Bash script for bootstraping encrypt-storage
+cd "$ENCRYPT_STORAGE_APP_PATH" && yarn start

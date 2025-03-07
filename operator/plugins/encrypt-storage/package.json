@@ -1,0 +1,23 @@
+{
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "gts": "^6.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "build": "tsc",
+    "fix": "gts fix",
+    "posttest": "yarn run lint"
+  },
+  "dependencies": {
+    "did-jwt": "^8.0.8",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.5",
+    "secretvaults": "^0.0.0-alpha.1",
+    "uuidv4": "^6.2.13"
+  }
+}

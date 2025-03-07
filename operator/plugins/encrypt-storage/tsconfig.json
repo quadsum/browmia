@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "module": "CommonJS",
+    "rootDir": "./src",
+    "outDir": "./dist",                                /* Specify the root folder within your source files. */          /* Check side effect imports. */
+    "resolveJsonModule": true,                        /* Enable importing .json files. */
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "strict": true,
+    "skipLibCheck": true
+
+  },
+  
+  "include": [
+    "src/**/*"
+
+  ],
+}
