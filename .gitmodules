@@ -1,0 +1,3 @@
+[submodule "operator/plugins/browser-use"]
+	path = operator/plugins/browser-use
+	url = https://github.com/metatarz/browser-use

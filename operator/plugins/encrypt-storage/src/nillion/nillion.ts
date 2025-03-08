@@ -138,7 +138,7 @@ async function getSchemas(): Promise<any[]> {
     const result = await makeRequest(node.url, 'schemas', jwt, {}, 'GET');
     results.push({node: node.url, result});
   }
-  return results.map(result => result.result.data);
+  return results.map((result:any) => result.result.data);
 }
 
 /**

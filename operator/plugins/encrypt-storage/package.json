@@ -11,7 +11,8 @@
     "clean": "gts clean",
     "build": "tsc",
     "fix": "gts fix",
-    "posttest": "yarn run lint"
+    "posttest": "yarn run lint",
+    "prod": "node ./dist/index.js"
   },
   "dependencies": {
     "did-jwt": "^8.0.8",

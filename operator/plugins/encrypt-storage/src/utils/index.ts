@@ -1,11 +1,12 @@
-import {UUID} from 'crypto';
-import {ES256KSigner, createJWT} from 'did-jwt';
+import { UUID } from 'crypto';
+//@ts-ignore
+import { ES256KSigner, createJWT } from 'did-jwt';
 import dotenv from 'dotenv';
-import fs, {existsSync, mkdirSync, writeFileSync} from 'fs';
-import path, {dirname} from 'path';
-import {v4} from 'uuid';
-import {orgConfig, vaultContract} from '../config';
-import {BrowmiaTask} from '../types/secretvaults';
+import fs, { writeFileSync } from 'fs';
+import path from 'path';
+import { v4 } from 'uuid';
+import { orgConfig, vaultContract } from '../config';
+import { BrowmiaTask } from '../types/secretvaults';
 
 dotenv.config();
 
@@ -31,22 +32,15 @@ export function writeStorageFile(content: string): void {
   return writeFileSync(orgConfig.taskDataPath, content);
 }
 
-function ensureDirectoryExists(filePath: string): void {
-  const dir = dirname(filePath);
-  if (!existsSync(dir)) {
-    mkdirSync(dir, {recursive: true});
-  }
-}
-
 export function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**
  * Create JWT signed with ES256K for one nodedid
- * @returns {Promise<string>}JWT token s
+ * @returns {Promise<string>} JWT token
  */
-export async function createJwt(nodeDid: string) {
+export async function createJwt(nodeDid: string): Promise<string> {
   // Create signer from private key
   const signer = ES256KSigner(
     Buffer.from(orgConfig.orgCredentials.secretKey!, 'hex'),
@@ -72,7 +66,6 @@ export async function createJwt(nodeDid: string) {
  * @param {string} endpoint - API endpoint
  * @param {string} token - JWT token for authentication
  * @param {object} payload - Request payload
- * @returns {Promise<object>} Response data
  */
 export async function makeRequest(
   nodeUrl: string,
@@ -80,7 +73,7 @@ export async function makeRequest(
   token: string,
   payload: any,
   method = 'POST',
-) {
+):Promise<{data:any[]} | undefined>{
   const response = await fetch(`${nodeUrl}/api/v1/${endpoint}`, {
     method,
     headers: {
@@ -95,7 +88,7 @@ export async function makeRequest(
     console.log(`HTTP error! status: ${response.status}, body: ${text}`);
     return;
   }
-  return await response.json();
+  return await response.json() as {data: any[]};
 }
 
 /**
@@ -168,4 +161,10 @@ export async function getVault(): Promise<
       updatedAt: Number(result.updatedAt),
     };
   }
+}
+
+
+export function getEnvVar(name: string, defaultValue?: string): any {
+  const value = process.env[name]?.trim();
+  return value ? value : defaultValue;
 }

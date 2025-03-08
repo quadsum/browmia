@@ -1,0 +1,13 @@
+{
+    "DeviceAutoUpdateDisabled": true,
+    "ComponentUpdatesEnabled": false,
+    "PasswordManagerEnabled": false,
+    "CommandLineFlagSecurityWarningsEnabled": false,
+    "DownloadRestrictions": 4,
+    "DefaultNotificationsSetting": 2,
+    "VoiceInteractionContextEnabled": false,
+    "AllowSystemNotifications": false,
+    "ExtensionInstallForcelist":[
+      "ilehaonighjijnmpnagapkhpcdbhclfg"
+    ]
+}

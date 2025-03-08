@@ -1,0 +1,27 @@
+#!/bin/bash
+
+sv -w 30 check /etc/service/xvnc || exit 1
+
+if [ ! -d "$PLUGINS_PATH/encrypt-storage" ]; then
+  echo "$PLUGINS_PATH/encrypt-storage dir does not exist."
+  exit 1
+fi
+
+
+export NILLION_ORG_SECRET_KEY=$ENCRYPT_STORAGE_NILLION_ORG_SECRET_KEY
+export NILLION_ORG_DID=$ENCRYPT_STORAGE_NILLION_ORG_DID
+export OPERATOR_PK=$ENCRYPT_STORAGE_OPERATOR_PK
+
+# values from task vault
+export VAULT_ID=$ENCRYPT_STORAGE_VAULT_ID
+export COPY_VAULT_ID=$ENCRYPT_STORAGE_COPY_VAULT_ID
+export SCHEMA_ID=$ENCRYPT_STORAGE_SCHEMA_ID
+
+# optional values
+export TASK_DATA_PATH=$ENCRYPT_STORAGE_TASK_DATA_PATH
+export INTERVAL=$ENCRYPT_STORAGE_INTERVAL
+export MONAD_RPC=$ENCRYPT_STORAGE_MONAD_RPC
+export BROWMIA_DIAMOND_ADDRESS=$ENCRYPT_STORAGE_BROWMIA_DIAMOND_ADDRESS
+
+# Bash script for bootstraping encrypt-storage
+export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && cd "$PLUGINS_PATH/encrypt-storage" && yarn prod

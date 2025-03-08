@@ -1,0 +1,22 @@
+#!/bin/bash
+
+sv -w 30 check /etc/service/xvnc || exit 1
+
+if [ ! -d "$PLUGINS_PATH/browser-use" ]; then
+  echo "$PLUGINS_PATH/browser-use dir does not exist."
+  exit 1
+fi
+
+
+export OPENAI_API_KEY=$BROWSER_USE_OPENAI_API_KEY
+export ANTHROPIC_API_KEY=$BROWSER_USE_ANTHROPIC_API_KEY
+export WS_PORT=$BROWSER_USE_WS_PORT
+export WS_HOST=$BROWSER_USE_WS_HOST
+export OPENAI_MODEL=$BROWSER_USE_OPENAI_MODEL
+export BROWSER_CDP_URL=$BROWSER_USE_CDP_URL
+
+export ANONYMIZED_TELEMETRY=false
+export BROWSER_USE_LOGGING_LEVEL=info
+
+
+cd $PLUGINS_PATH/browser-use && . .venv/bin/activate && python3 agent.py

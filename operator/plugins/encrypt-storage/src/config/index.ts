@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
+import { getEnvVar } from '../utils';
 dotenv.config();
 
 if (!process.env.NILLION_ORG_SECRET_KEY)
@@ -47,16 +48,16 @@ export const orgConfig = {
     },
   ],
   orgCredentials: {
-    secretKey: process.env.NILLION_ORG_SECRET_KEY,
-    orgDid: process.env.NILLION_ORG_DID,
+    secretKey: getEnvVar('NILLION_ORG_SECRET_KEY'),
+    orgDid: getEnvVar('NILLION_ORG_DID'),
   },
-  diamond: process.env.BROWMIA_DIAMOND_ADDRESS ?? '0x64942Ac86b6B87Eb5BD14B9023F554746eF7639b',
-  pk: process.env.OPERATOR_PK,
-  rpc: process.env.MONAD_RPC ?? 'https://testnet-rpc.monad.xyz',
-  vaultId: process.env.VAULT_ID,
-  copyVaultId: process.env.COPY_VAULT_ID,
-  schemaId: process.env.SCHEMA_ID ?? '1878d419-4e39-40fc-92a6-7c8cf45c2975',
-  taskDataPath: process.env.TASK_DATA_PATH ?? './storage'
+  diamond: getEnvVar('BROWMIA_DIAMOND_ADDRESS','0x64942Ac86b6B87Eb5BD14B9023F554746eF7639b'),
+  pk: getEnvVar('OPERATOR_PK'),
+  rpc: getEnvVar('MONAD_RPC','https://testnet-rpc.monad.xyz'),
+  vaultId: getEnvVar('VAULT_ID'),
+  copyVaultId: getEnvVar('COPY_VAULT_ID'),
+  schemaId: getEnvVar('SCHEMA_ID', '1878d419-4e39-40fc-92a6-7c8cf45c2975'),
+  taskDataPath: getEnvVar('TASK_DATA_PATH', './storage')
 };
 
 const provider = new ethers.JsonRpcProvider(orgConfig.rpc);
