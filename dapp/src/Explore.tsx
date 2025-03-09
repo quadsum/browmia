@@ -73,9 +73,8 @@ const App: React.FC = () => {
       // });
 
       //if (response.ok) {
-        const browserURL= `https://browmia-agent.duckdns.org/?token=${signature}`
-        const agentURL= `wss://browmia-agent.duckdns.org/ws?token=${signature}`
-        navigate(`/browser/${address}`, {state: {browserURL, agentURL}})
+      
+        navigate(`/browser/${address}`)
 
       // } else {
       //   console.error("Failed to launch. Please try again.");

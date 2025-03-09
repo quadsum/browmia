@@ -3,6 +3,7 @@ import { DeepChat } from 'deep-chat-react';
 import { url } from 'inspector';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useSignMessage } from 'wagmi';
 
 interface ChatMessage {
   text: string;
@@ -14,33 +15,13 @@ export const BrowserView: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isDecrypted, setIsDecrypted] = useState(false);
   const chatElementRef = useRef<any>(null);
+  const { signMessageAsync } = useSignMessage();
+
   const { state } = useLocation();
   const { walletAddress } = useParams<{ walletAddress: string }>();
-  const agentURL: string = state.agentURL;
-  const browserURL: string = state.browserURL;
-  const [isRefreshWs, setRefreshWs]=useState(false)
+  const browserURL= `https://browmia-operator-1.duckdns.org:4433/?token=${walletAddress}&url=wss://browmia-operator-1.duckdns.org:4433/proxy`
+  const agentURL= `wss://browmia-operator-1.duckdns.org:4433/ws?token=${walletAddress}`
 
-
-  // useEffect(() => {
-  //   const connectWebSocket = async () => {
-  //     ws.current = new WebSocket(agentURL);
-      
-  //     ws.current.onmessage = async (event) => {
-  //       setMessages(prev => [...prev, {
-  //         text: event.data,
-  //         role: 'ai'
-  //       }]);
-  //     };
-      
-
-  //     // ws.current.onclose = () => {
-  //     //   setTimeout(connectWebSocket, 5000);
-  //     // };
-  //   };
-
-  //   connectWebSocket();
-  //   return () => ws.current?.close();
-  // }, [agentURL]);
 
   useEffect(() => {
     let websocket: WebSocket | null = null;
@@ -63,8 +44,7 @@ export const BrowserView: React.FC = () => {
           
           signals.onResponse(response); // displays a text message from the server
         };
-        websocket.onclose = () => {
-          
+        websocket.onclose = (event) => {          
           signals.onClose(); // stops the user from sending messages
 
          retryTimeout = setTimeout(() => {
@@ -72,9 +52,7 @@ export const BrowserView: React.FC = () => {
             connectWebSocket();
           }, 5000);
         };
-        websocket.onerror = () => {
-          // 'Connection error' is a special string that will also display in Deep Chat
-          
+        websocket.onerror = (error) => {          
           signals.onResponse({error: 'Failed to connect. Retrying ...'});
         };
         // triggered when the user sends a message
@@ -109,9 +87,7 @@ return () => {
 
 }, [agentURL]);
   const decryptChat = async () => {
-    
-    //todo: update decrypt logic
-    setMessages(messages);
+        await signMessageAsync({ message: 'I want to decrypt chat history' });   
     setIsDecrypted(true);
   };
 

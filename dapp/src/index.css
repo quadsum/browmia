@@ -469,3 +469,152 @@ header {
   width: 100%;
   margin-left: 0;
 }
+
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  background-image: url('../public/concept.jpg');
+  background-size:cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(10, 10, 10, 0.8), rgba(0, 0, 0, 0.9));
+  z-index: 0;
+}
+
+/* Header Styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(10, 10, 10, 0.8);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.register-operator-button {
+  padding: 10px 20px;
+  margin: 0 30px 0 auto;
+  font-size: 1rem;
+  color: #00f7ff;
+  background: rgba(0, 247, 255, 0.1);
+  border: 2px solid #00f7ff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.register-operator-button:hover {
+  background: rgba(0, 247, 255, 0.3);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(10, 10, 10, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #0a0a0a;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.2);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #00f7ff;
+  text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+}
+
+.modal-close {
+  background: rgba(0, 247, 255, 0.1);
+  border: 1px solid #00f7ff;
+  color: #00f7ff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+  transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(0, 247, 255, 0.3);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #00f7ff;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(20, 20, 30, 0.2);
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  border-radius: 5px;
+  color: #00f7ff;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 247, 255, 0.1);
+  border: 1px solid #00f7ff;
+  border-radius: 5px;
+  color: #00f7ff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: rgba(0, 247, 255, 0.3);
+}
+
+/* Toastify Notifications */
+.Toastify__toast {
+  background: #0a0a0a;
+  color: #00f7ff;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+}
+
+.Toastify__toast--success {
+  background: rgba(0, 247, 255, 0.1);
+}
+
+.Toastify__toast--error {
+  background: rgba(255, 0, 0, 0.1);
+}
+
+.Toastify__close-button {
+  color: #00f7ff;
+}
