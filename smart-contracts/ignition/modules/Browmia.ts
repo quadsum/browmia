@@ -5,7 +5,9 @@ import { encodeFunctionData } from "viem";
 const browmiaModule = buildModule("Browmia", (m) => {
   const owner = m.getParameter("owner", "0xb9Ae7e3763E55011C4409c790a279C82C74F087D")
   const operatorPool = m.contract("OperatorPool");
-  
+  m.contract("IDiamondLoupe");
+  m.contract("IDiamondCut")
+  m.contract("LibDiamond")
   const taskFacet = m.contract("TaskFacet");
   const vaultFacet = m.contract("VaultFacet");
   const adminFacet = m.contract("AdminFacet");
@@ -75,7 +77,7 @@ const browmiaModule = buildModule("Browmia", (m) => {
     initData
   ]);
   
-  //m.call(adminFacet, "setOperatorPool", [operatorPool]);
+  m.call(adminFacet, "setOperatorPool", [operatorPool]);
   
   return { diamond, operatorPool };
 });

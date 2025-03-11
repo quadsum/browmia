@@ -15,6 +15,14 @@ const config: HardhatUserConfig = {
       chainId: 10143,
       accounts: [process.env.PRIVATE_KEY!]
     }
+  },
+  sourcify: {
+    enabled: true,
+    apiUrl: "https://sourcify-api-monad.blockvision.org",
+    browserUrl: "https://testnet.monadexplorer.com"
+  },
+  etherscan: {
+    enabled: false
   }
 };
 

@@ -42,7 +42,7 @@ export async function initSecretVault(): Promise<any> {
       schemaId = schemasByName[schemasByName.length - 1];
     }
   }
-  return {schema: schemaId};
+  return { schema: schemaId };
 }
 
 export async function writeToSecretVault(
@@ -75,7 +75,7 @@ export async function writeToSecretVault(
       dataPayload,
       'POST',
     );
-    results.push({node: node.url, result});
+    results.push({ node: node.url, result });
   }
   return results;
 }
@@ -91,7 +91,7 @@ export async function readFromSecretVault(
     schema: schemaId,
   };
 
-  const results: {node: string; result: BrowmiaNodeTaskData}[] = [];
+  const results: { node: string; result: BrowmiaNodeTaskData }[] = [];
   for (const node of orgConfig.nodes) {
     const jwt = await createJwt(node.did);
     const result = await makeRequest(
@@ -103,7 +103,7 @@ export async function readFromSecretVault(
     );
 
     if (result && result.data && result.data.length) {
-      results.push({node: node.url, result});
+      results.push({ node: node.url, result });
     }
   }
 
@@ -115,16 +115,18 @@ export async function readFromSecretVault(
   }
 
   const rawData = results[0].result.data[0];
-  const [decryptedFile, decryptedPath] = await allFulfilled([
-    decryptData(rawData.file['%share']),
-    decryptData(rawData.path['%share']),
-  ]);
+  if (rawData && rawData.file && rawData.path) {
+    const [decryptedFile, decryptedPath] = await allFulfilled([
+      decryptData(rawData.file['%share']),
+      decryptData(rawData.path['%share']),
+    ]);
 
-  return {
-    ...rawData,
-    file: decryptedFile as string,
-    path: decryptedPath as string,
-  };
+    return {
+      ...rawData,
+      file: decryptedFile as string,
+      path: decryptedPath as string,
+    }
+  }
 }
 
 /**
@@ -136,9 +138,9 @@ async function getSchemas(): Promise<any[]> {
   for (const node of orgConfig.nodes) {
     const jwt = await createJwt(node.did);
     const result = await makeRequest(node.url, 'schemas', jwt, {}, 'GET');
-    results.push({node: node.url, result});
+    results.push({ node: node.url, result });
   }
-  return results.map((result:any) => result.result.data);
+  return results.map((result: any) => result.result.data);
 }
 
 /**
@@ -162,7 +164,7 @@ export async function createSchema(schema: any) {
     const result = await makeRequest(node.url, 'schemas', jwt, schemaPayload);
 
     console.log(result);
-    results.push({node: node.url, result});
+    results.push({ node: node.url, result });
   }
   return results;
 }
@@ -172,18 +174,17 @@ export async function createSchema(schema: any) {
  */
 export const encryptData = async (
   data: string,
-): Promise<{'%share': string | string[] | number[]}> => {
+): Promise<{ '%share': string | string[] | number[] }> => {
   try {
     let shares = await nilql.encrypt(secretKey, data);
 
     // Convert single-node configuration to be an array to match schema types.
     shares = Array.isArray(shares) ? shares : [shares];
 
-    return {'%share': shares};
+    return { '%share': shares };
   } catch (error) {
     throw new Error(
-      `Encryption failed: ${
-        error instanceof Error ? error.message : 'Unknown error'
+      `Encryption failed: ${error instanceof Error ? error.message : 'Unknown error'
       }`,
     );
   }
@@ -204,8 +205,7 @@ export const decryptData = async (
     return decrypted;
   } catch (error) {
     throw new Error(
-      `Decryption failed: ${
-        error instanceof Error ? error.message : 'Unknown error'
+      `Decryption failed: ${error instanceof Error ? error.message : 'Unknown error'
       }`,
     );
   }

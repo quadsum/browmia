@@ -1,89 +1,44 @@
-# Browmia Smart Contracts
+<a href="https://browmia-dapp.fly.dev" target="_blank" rel="noopener">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" alt="Browmia" srcset="https://i.postimg.cc/TYwhCX1z/browmia-1.png" />
+    <img alt="Browmia" src="https://i.postimg.cc/85XgCxGv/browmia-1.png" />
+  </picture>
+</a>
 
-This repository contains the smart contracts for the **Browmia** project. The system consists of multiple facets (modular contracts) that work together to handle tasks, operators, and vaults.
+<h4 align="center">
+  <a href="https://browmia-dapp.fly.dev">Browmia dApp</a> |
+  <a href="./technical-docs/README.md">Documentation</a>
+</h4>
 
----
+<div align="center">
+  <h2>
+    A decentralized AI Agent browser marketplace designed for secure, private, and modular web automation. 
+ </br>
+  <br />
+  </h2>
+</div>
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Installation](#installation)
-3. [Running Tests](#running-tests)
-4. [Deployment](#deployment)
+<br />
+<p align="center">
+  <a href="https://github.com/quadsum/browmia/blob/master/LICENSE">
+    <img alt="Browmia is released under the MIT license." src="https://img.shields.io/badge/license-MIT-blue.svg"  />
+  </a>
+  <a href="https://github.com/quadsum/browmia/blob/master">
+    <img alt="PRs welcome!" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"  />
+  </a>
+</p>
 
----
+<div align="center">
+  <figure>
+    <a href="https://github.com/quadsum/browmia/blob/master" target="_blank" rel="noopener">
+      <img src="https://i.postimg.cc/28KfQ11Z/d.jpg" alt="Product showcase" />
+    </a>
+    <figcaption>
+      <p align="center">
+        Automate browsing tasks with your desired chat agent.
+      </p>
+    </figcaption>
+  </figure>
+</div>
 
-## Overview
-
- **Diamond Standard (EIP-2535)** is used to create a modular and upgradeable smart contract architecture. The system consists of the following components:
-
-
-- **Diamond.sol**: Diamond pattern proxy contract.
-- **OperatorPool.sol**: Registers and manages operators who execute tasks.
-- **TaskFacet.sol**: Manages tasks submitted by users.
-- **VaultFacet.sol**: Stores encrypted data related to tasks.
-- **AdminFacet.sol**: Manages OperatorPool admin tasks.
-- **LoupeFacet.sol**: Provides facet insights to Loupe.
-
-
-
-The system ensures:
-- **Security**: Role-based access control, reentrancy guards, and pausable functionality.
-- **Upgradeability**: Modular design using Diamond facets.
-- **Efficiency**: Gas-optimized storage and function calls.
-
----
-
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/quadsum/browmia.git
-   cd smart-contracts
-   ```
-
-2. Install dependencies
-    ```bash
-    yarn install
-    ```
-3. Set up environment values
-    ```bash
-    cp .env.example .env
-    ```
-    Update the .env file with your values:
-    ```
-    PRIVATE_KEY=your_private_key
-    ```
-## Running tests
-
-1. Start local hardhat node
-
-```bash
-npx hardhat node
-
-```
-
-2. Run tests
-
-```bash
-npx hardhat test --network localhost
-```
-
-## Deployment
-
-### Deploy to localhost
-Deploy the contracts to a local Hardhat node:
-
-```bash
-npx hardhat ignition deploy ./ignition/modules/Browmia.ts
-
-```
-
-Deploy to Monad testnet
-
-```bash
-npx hardhat ignition deploy ./ignition/modules/Browmia.ts --network monadTestnet
-```
-
-
-
-
+## Features

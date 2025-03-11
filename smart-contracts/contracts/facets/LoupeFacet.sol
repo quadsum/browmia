@@ -1,4 +1,4 @@
-// contracts/facets/LoupeFacet.sol
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
 import {LibDiamond} from "../libraries/LibDiamond.sol";

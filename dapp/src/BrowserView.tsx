@@ -12,17 +12,28 @@ interface ChatMessage {
 
 export const BrowserView: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(true);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isDecrypted, setIsDecrypted] = useState(false);
   const chatElementRef = useRef<any>(null);
   const { signMessageAsync } = useSignMessage();
 
-  const { state } = useLocation();
   const { walletAddress } = useParams<{ walletAddress: string }>();
-  const browserURL= `https://browmia-operator-1.duckdns.org:4433/?token=${walletAddress}&url=wss://browmia-operator-1.duckdns.org:4433/proxy`
-  const agentURL= `wss://browmia-operator-1.duckdns.org:4433/ws?token=${walletAddress}`
+  const browserURL= `https://browmia-test.duckdns.org/?token=${walletAddress}&url=wss://browmia-test.duckdns.org/proxy&resize=1`
+  const agentURL= `wss://browmia-test.duckdns.org/ws?token=${walletAddress}`
 
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Add toggleFullscreen function
+  const toggleFullscreen = useCallback(() => {
+    if (!iframeRef.current) return;
+
+    if (!document.fullscreenElement) {
+      iframeRef.current.requestFullscreen().catch(err => {
+        console.error('Error attempting to enable fullscreen:', err);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }, []);
   useEffect(() => {
     let websocket: WebSocket | null = null;
     let retryTimeout: NodeJS.Timeout | null = null;
@@ -101,6 +112,17 @@ return () => {
         >
           {isChatOpen ? '◀' : '🤖'}
         </button>
+
+        <button
+          className="toggle-fullscreen"
+          title="Toggle fullscreen"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleFullscreen();
+          }}
+        >
+          ⤢
+        </button>
         
         
           <div className="chat-container" style={!isChatOpen ? {display:'none'}:{}}>
@@ -114,7 +136,6 @@ return () => {
               <div className={`chat-messages ${!isDecrypted ? 'blurred' : ''}`}>
                 <DeepChat
                   ref={chatElementRef}
-                  history={messages}
                   avatars={true}
                   messageStyles={{default: {user: {bubble: {"backgroundColor": "#ff2020"}}}}}
                   submitButtonStyles={{
@@ -153,10 +174,13 @@ return () => {
       </div>
 
       <iframe
+        ref={iframeRef}
         src={browserURL}
         className="browser-iframe"
         title="Decentralized Browser"
-        style={{ marginLeft: isChatOpen ? '350px' : '50px' }}
+        style={{ marginLeft: isChatOpen ? '395px' : '50px' }}
+        allow='clipboard-read; clipboard-write'
+        allowFullScreen={true}
       />
     </div>
   );
