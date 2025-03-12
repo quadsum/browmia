@@ -186,7 +186,7 @@ llm = ChatOpenAI(model=model_name)
 
 ## Decentralized secure storage 
 
-The `encrypt-storage` Typescript plugin syncs local to on chain states in a loop fashion.
+The [encrypt-storage plugin](https://github.com/quadsum/browmia/blob/main/operator/plugins/encrypt-storage/README.md) syncs local to on chain states in a loop fashion.
 The main process reads plaintext data at `TASK_DATA_PATH` and encrypts it with [nilQL](https://docs.nillion.com/build/nilQL). As a result, it produces encrypted data shares (one for each of the [Nillion SecretVault](https://docs.nillion.com/build/secret-vault) nodes) which are stored in the SecretVault alongside these fields:
 `taskId`, `file`, `path`.
 
