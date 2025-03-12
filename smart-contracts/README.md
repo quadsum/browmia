@@ -22,7 +22,7 @@ This repository contains the smart contracts for the **Browmia** project. The sy
 - **TaskFacet.sol**: Manages tasks submitted by users.
 - **VaultFacet.sol**: Stores encrypted data related to tasks.
 - **AdminFacet.sol**: Manages OperatorPool admin tasks.
-- **LoupeFacet.sol**: Provides facet insights to Loupe.
+- **LoupeFacet.sol**: Provides facet insights.
 
 
 
@@ -30,6 +30,8 @@ The system ensures:
 - **Security**: Role-based access control, reentrancy guards, and pausable functionality.
 - **Upgradeability**: Modular design using Diamond facets.
 - **Efficiency**: Gas-optimized storage and function calls.
+
+Inspect and interact with the [Browmia diamond contract at Louper](https://louper.dev/diamond/0x64942Ac86b6B87Eb5BD14B9023F554746eF7639b?network=monadTestnet) deployed in Monad testnet.
 
 ---
 
